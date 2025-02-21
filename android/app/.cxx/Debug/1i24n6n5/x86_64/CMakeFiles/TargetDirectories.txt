@@ -1,0 +1,2 @@
+F:/mood_mate-master/android/app/.cxx/Debug/1i24n6n5/x86_64/CMakeFiles/edit_cache.dir
+F:/mood_mate-master/android/app/.cxx/Debug/1i24n6n5/x86_64/CMakeFiles/rebuild_cache.dir

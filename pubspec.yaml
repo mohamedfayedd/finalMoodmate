@@ -1,0 +1,37 @@
+name: moodmate
+
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.10+1
+  animated_splash_screen: ^1.3.0
+  camera: ^0.11.0
+  image_picker: ^1.0.7
+  dotted_border: ^2.1.0
+  just_audio: ^0.9.36  # لتشغيل الصوتيات
+  dio: ^5.4.0  # مكتبة جلب البيانات من API
+  syncfusion_flutter_pdfviewer: ^28.2.5  # إصدار محدث لعرض ملفات PDF
+  webview_flutter: ^4.7.0  # مكتبة لعرض صفحات الويب داخل التطبيق
+  youtube_player_flutter: ^9.1.1  # مكتبة تشغيل فيديوهات يوتيوب
+  flutter_inappwebview: ^6.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/

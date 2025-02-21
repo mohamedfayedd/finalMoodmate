@@ -1,0 +1,46 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace "com.example.moodmate" // ✅ تعريف namespace بدون "="
+
+    compileSdk 34 // ✅ تأكد من أن compileSdk متوافق مع targetSdk
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17" // ✅ تحسين طريقة تحديد jvmTarget
+    }
+
+    defaultConfig {
+        applicationId "com.example.moodmate"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    ndkVersion "28.0.13004108"
+
+    signingConfigs {
+        debug {
+            storeFile file("${System.properties['user.home']}/.android/debug.keystore") // ✅ ضبط مسار صحيح
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source "../.."
+}
