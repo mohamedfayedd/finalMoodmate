@@ -3,6 +3,7 @@ import 'listen_quran.dart'; // ✅ استيراد صفحة الاستماع لل
 import 'read_book_screen.dart'; // ✅ استيراد صفحة قراءة الكتب
 import 'watch_video_screen.dart'; // ✅ استيراد صفحة مشاهدة الفيديوهات
 import 'rate_progress_screen.dart'; // ✅ استيراد صفحة تقييم التقدم
+import 'broadcast_audio_screen.dart'; // ✅ استيراد صفحة بث الصوتيات
 
 class TreatmentSuggestionsScreen extends StatelessWidget {
   @override
@@ -37,7 +38,7 @@ class TreatmentSuggestionsScreen extends StatelessWidget {
                   buildOption(context, "assets/images/quran.png", isQuran: true),
                   buildOption(context, "assets/images/book.png", isBook: true),
                   buildOption(context, "assets/images/videos.png", isVideo: true), // ✅ إضافة التنقل لصفحة الفيديوهات
-                  buildOption(context, "assets/images/broadcast.png"),
+                  buildOption(context, "assets/images/broadcast.png", isBroadcast: true), // ✅ التنقل لصفحة بث الصوتيات
                   buildOption(context, "assets/images/relaxation.png"),
                 ],
               ),
@@ -70,7 +71,7 @@ class TreatmentSuggestionsScreen extends StatelessWidget {
     );
   }
 
-  Widget buildOption(BuildContext context, String imagePath, {bool isQuran = false, bool isBook = false, bool isVideo = false}) {
+  Widget buildOption(BuildContext context, String imagePath, {bool isQuran = false, bool isBook = false, bool isVideo = false, bool isBroadcast = false}) {
     return GestureDetector(
       onTap: () {
         if (isQuran) {
@@ -88,6 +89,13 @@ class TreatmentSuggestionsScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (_) => WatchVideoScreen(),
+            ),
+          );
+        } else if (isBroadcast) { // ✅ إضافة شرط جديد للانتقال لصفحة بث الصوتيات
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BroadcastAudioScreen(),
             ),
           );
         }
