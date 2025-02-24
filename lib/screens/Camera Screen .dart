@@ -99,10 +99,12 @@ class _CameraScreenState extends State<CameraScreen> {
       setState(() {
         _predictedEmotion = emotions[maxIndex];
       });
-      print(' $_predictedEmotion hereeeeee ');
+
+      print('🔍 Detected Emotion: $_predictedEmotion');
       return _predictedEmotion;
     } catch (e) {
-      print("خطأ أثناء تصنيف الصورة: $e");
+      print("❌ خطأ أثناء تصنيف الصورة: $e");
+      return null;
     }
   }
 
@@ -125,7 +127,6 @@ class _CameraScreenState extends State<CameraScreen> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +162,8 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
             SizedBox(height: 20),
             if (_predictedEmotion != null)
-              Text("Detected Emotion: $_predictedEmotion", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text("Detected Emotion: $_predictedEmotion",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

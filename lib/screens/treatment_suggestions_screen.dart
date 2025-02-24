@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'listen_quran.dart'; // ✅ استيراد صفحة الاستماع للقرآن
-import 'read_book_screen.dart'; // ✅ استيراد صفحة قراءة الكتب
-import 'watch_video_screen.dart'; // ✅ استيراد صفحة مشاهدة الفيديوهات
-import 'rate_progress_screen.dart'; // ✅ استيراد صفحة تقييم التقدم
-import 'broadcast_audio_screen.dart'; // ✅ استيراد صفحة بث الصوتيات
+import 'listen_quran.dart';
+import 'read_book_screen.dart';
+import 'watch_video_screen.dart';
+import 'rate_progress_screen.dart';
+import 'broadcast_audio_screen.dart';
+import 'youtube_search_screen.dart'; // ✅ استيراد البحث عن الفيديوهات
 
 class TreatmentSuggestionsScreen extends StatelessWidget {
   @override
@@ -37,8 +38,8 @@ class TreatmentSuggestionsScreen extends StatelessWidget {
                 children: [
                   buildOption(context, "assets/images/quran.png", isQuran: true),
                   buildOption(context, "assets/images/book.png", isBook: true),
-                  buildOption(context, "assets/images/videos.png", isVideo: true), // ✅ إضافة التنقل لصفحة الفيديوهات
-                  buildOption(context, "assets/images/broadcast.png", isBroadcast: true), // ✅ التنقل لصفحة بث الصوتيات
+                  buildOption(context, "assets/images/videos.png", isVideo: true), // ✅ البحث عن فيديوهات
+                  buildOption(context, "assets/images/broadcast.png", isBroadcast: true),
                   buildOption(context, "assets/images/relaxation.png"),
                 ],
               ),
@@ -48,9 +49,7 @@ class TreatmentSuggestionsScreen extends StatelessWidget {
               width: 382,
               height: 70,
               child: ElevatedButton(
-                onPressed: () {
-                  // Action for End Session button
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF9616FF),
                   padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
@@ -75,29 +74,13 @@ class TreatmentSuggestionsScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (isQuran) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ListenQuran()),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ListenQuran()));
         } else if (isBook) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ReadBooksScreen()),
-          );
-        } else if (isVideo) { // ✅ إضافة شرط جديد للانتقال لصفحة الفيديوهات
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => WatchVideoScreen(),
-            ),
-          );
-        } else if (isBroadcast) { // ✅ إضافة شرط جديد للانتقال لصفحة بث الصوتيات
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => BroadcastAudioScreen(),
-            ),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ReadBooksScreen()));
+        } else if (isVideo) { // ✅ البحث عن الفيديوهات عند الضغط
+          Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeSearchScreen(query: "relaxing music")));
+        } else if (isBroadcast) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => BroadcastAudioScreen()));
         }
       },
       child: Container(
