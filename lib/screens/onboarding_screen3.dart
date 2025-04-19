@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'Home_screen.dart'; // تأكد من استيراد الشاشة الرئيسية
+import 'LoginScreen.dart'; // تأكد من استيراد صفحة LoginScreen
 
 class OnboardingScreen3 extends StatelessWidget {
   const OnboardingScreen3({super.key});
@@ -25,11 +25,11 @@ class OnboardingScreen3 extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: TextButton(
                   onPressed: () {
-                    // الانتقال إلى الشاشة الرئيسية
+                    // الانتقال إلى شاشة تسجيل الدخول
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
+                        builder: (context) =>  LoginScreen(),
                       ),
                     );
                   },
