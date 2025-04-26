@@ -44,3 +44,4 @@ flutter:
   assets:
     - assets/images/
     - assets/
+    - assets/text_emotion_model/emotion_model.tflite
