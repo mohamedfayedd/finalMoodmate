@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'Camera Screen .dart'; // تأكد من استيراد الشاشة الجديدة
+import 'package:moodmate/screens/write_feelings_screen.dart';
+import 'CameraScreen.dart';// استيراد شاشة كتابة المشاعر
 import 'profile.dart'; // استيراد شاشة الملف الشخصي
 import 'Question screen.dart'; // استيراد شاشة الأسئلة
-import 'write feelings screen.dart'; // استيراد شاشة كتابة المشاعر
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -138,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => WriteFeelingsScreen()), // الانتقال إلى شاشة كتابة المشاعر
+                                  MaterialPageRoute(builder: (context) => EmotionTextDetectionScreen()), // الانتقال إلى شاشة كتابة المشاعر
                                 );
                               },
                               icon: const Icon(
