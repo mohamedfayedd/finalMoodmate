@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'LoginScreen.dart'; // تأكد من استيراد صفحة LoginScreen
+import '../auth_view/LoginScreen.dart'; // تأكد من استيراد صفحة LoginScreen
 
 class OnboardingScreen3 extends StatelessWidget {
   const OnboardingScreen3({super.key});
