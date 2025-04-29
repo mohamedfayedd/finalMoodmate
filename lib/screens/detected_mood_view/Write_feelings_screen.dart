@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moodmate/screens/detected_mood_view/detected_mood_view.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class EmotionTextDetectionScreen extends StatefulWidget {
@@ -10,11 +11,8 @@ class EmotionTextDetectionScreen extends StatefulWidget {
 
 class _EmotionTextDetectionScreenState extends State<EmotionTextDetectionScreen> {
   late Interpreter _interpreter;
-  late List<int> _inputShape;
-  late List<int> _outputShape;
-  bool _isProcessing = false;
-  String _result = '';
   final TextEditingController _controller = TextEditingController();
+  bool _isLoading = false;
 
   final List<String> _labels = [
     'anger', 'disgust', 'fear', 'joy', 'neutral', 'sadness', 'surprise'
@@ -29,75 +27,58 @@ class _EmotionTextDetectionScreenState extends State<EmotionTextDetectionScreen>
   Future<void> _loadModel() async {
     try {
       _interpreter = await Interpreter.fromAsset('assets/text_emotion_model/emotion_model.tflite');
-      _inputShape = _interpreter.getInputTensor(0).shape;
-      _outputShape = _interpreter.getOutputTensor(0).shape;
-
-      debugPrint('✅ Model loaded');
-      debugPrint('Input Shape: $_inputShape');
-      debugPrint('Output Shape: $_outputShape');
+      debugPrint('✅ Model loaded successfully');
     } catch (e) {
       debugPrint('❌ Failed to load model: $e');
+      // Handle model loading error appropriately
     }
   }
 
-  Future<void> _predictEmotion(String text) async {
-    if (text.trim().isEmpty || _isProcessing) return;
+  Future<String?> _predictEmotion(String text) async {
+    if (text.trim().isEmpty) return null;
 
-    setState(() {
-      _isProcessing = true;
-      _result = '';
-    });
+    setState(() => _isLoading = true);
 
     try {
-      await Future.delayed(const Duration(milliseconds: 500)); // UX delay
+      // Get model input/output shapes
+      final inputShape = _interpreter.getInputTensor(0).shape;
+      final outputShape = _interpreter.getOutputTensor(0).shape;
 
-      final input = _preprocessInput(text);
+      // Preprocess input
+      final input = _preprocessInput(text, inputShape[1]);
+      
+      // Prepare output buffer
+      final output = List.filled(outputShape.reduce((a, b) => a * b), 0.0)
+          .reshape([outputShape[0], outputShape[1]]);
 
-      final output = List.filled(_outputShape.reduce((a, b) => a * b), 0.0)
-          .reshape([_outputShape[0], _outputShape[1]]);
-
+      // Run inference
       _interpreter.run(input, output);
 
-      debugPrint('🔍 Raw model output: $output');
-
+      // Get predicted emotion
       final predictedIndex = _argMax(output[0]);
-      final predictedEmotion = _labels[predictedIndex];
-
-      setState(() {
-        _result = predictedEmotion;
-      });
+      return _labels[predictedIndex];
     } catch (e) {
       debugPrint('❌ Inference error: $e');
-      setState(() {
-        _result = 'Error during detection.';
-      });
+      return null;
     } finally {
-      setState(() {
-        _isProcessing = false;
-      });
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
-  List<List<double>> _preprocessInput(String text) {
-    final features = _inputShape[1];
+  List<List<double>> _preprocessInput(String text, int features) {
     List<double> vector = List.filled(features, 0.0);
-
     for (int i = 0; i < text.length && i < features; i++) {
       vector[i] = text.codeUnitAt(i) / 255.0;
     }
-
     return [vector];
   }
 
   int _argMax(List<double> list) {
-    double maxVal = list[0];
     int maxIndex = 0;
-
     for (int i = 1; i < list.length; i++) {
-      if (list[i] > maxVal) {
-        maxVal = list[i];
-        maxIndex = i;
-      }
+      if (list[i] > list[maxIndex]) maxIndex = i;
     }
     return maxIndex;
   }
@@ -154,9 +135,6 @@ class _EmotionTextDetectionScreenState extends State<EmotionTextDetectionScreen>
                   border: InputBorder.none,
                   counterText: "",
                 ),
-                onChanged: (text) {
-                  setState(() {});
-                },
               ),
             ),
             const SizedBox(height: 8),
@@ -167,18 +145,6 @@ class _EmotionTextDetectionScreenState extends State<EmotionTextDetectionScreen>
                 style: const TextStyle(color: Colors.grey),
               ),
             ),
-            if (_result.isNotEmpty) ...[
-              const SizedBox(height: 24),
-              const Text(
-                'Predicted Emotion:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                _result,
-                style: const TextStyle(fontSize: 20, color: Colors.deepPurple),
-              ),
-            ],
             const Spacer(),
             Container(
               width: 382,
@@ -188,7 +154,20 @@ class _EmotionTextDetectionScreenState extends State<EmotionTextDetectionScreen>
                 borderRadius: BorderRadius.circular(16),
               ),
               child: ElevatedButton(
-                onPressed: _isProcessing ? null : () => _predictEmotion(_controller.text),
+                onPressed: _isLoading ? null : () async {
+                  final emotion = await _predictEmotion(_controller.text);
+                  if (emotion != null && mounted) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DetectedModeScreen(emotion: emotion),
+                      ),
+                    );
+                  } else if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Failed to analyze text')),
+                    );
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
@@ -197,11 +176,8 @@ class _EmotionTextDetectionScreenState extends State<EmotionTextDetectionScreen>
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 32),
                 ),
-                child: _isProcessing
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      )
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
                     : const Text(
                         'Analyze',
                         style: TextStyle(color: Colors.white, fontSize: 16),

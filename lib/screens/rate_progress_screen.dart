@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Home_screen.dart';
+import 'home_view/Home_screen.dart';
 import 'treatment_suggestions_screen.dart';
 
 class RateMoodScreen extends StatefulWidget {

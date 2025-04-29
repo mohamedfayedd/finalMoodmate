@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moodmate/screens/write_feelings_screen.dart';
-import 'CameraScreen.dart';// استيراد شاشة كتابة المشاعر
-import 'profile.dart'; // استيراد شاشة الملف الشخصي
-import 'Question screen.dart'; // استيراد شاشة الأسئلة
+import 'package:moodmate/screens/detected_mood_view/CameraScreen.dart';
+import 'package:moodmate/screens/detected_mood_view/Write_feelings_screen.dart';
+import '../profile.dart'; // استيراد شاشة الملف الشخصي
+import '../Question screen.dart'; // استيراد شاشة الأسئلة
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

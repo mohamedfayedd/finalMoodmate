@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'package:moodmate/screens/home_view/Home_screen.dart';
 import 'signUp.dart';
 
 void main() {
