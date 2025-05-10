@@ -99,7 +99,12 @@ class DetectedModeScreen extends StatelessWidget {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                // Add treatment suggestions navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TipsAndGuidanceScreen(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
