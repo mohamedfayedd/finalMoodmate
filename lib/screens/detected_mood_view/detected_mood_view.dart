@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moodmate/screens/detected_mood_view/tips_guide_view.dart';
+import 'package:moodmate/screens/treatment_suggestions_screen.dart';
 import 'detect_tips_guide_model.dart';
 
 class DetectedModeScreen extends StatelessWidget {
@@ -102,7 +103,7 @@ class DetectedModeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TipsAndGuidanceScreen(),
+                    builder: (context) => TreatmentSuggestionsScreen(),
                   ),
                 );
               },
